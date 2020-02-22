@@ -1,0 +1,5 @@
+title,description,ingredients,weights,sizes,prices,hot
+margherita 1,lorem,"cheese, sauce","400, 600, 800","30, 40 ,50","10, 12, 14",true
+margherita 2,lorem,"cheese, sauce","400, 600, 801","30, 40 ,51","11, 12, 14",true
+margherita 3,lorem,"cheese, sauce","400, 600, 802","30, 40 ,52","12, 12, 14",true
+margherita 4,lorem,"cheese, sauce","400, 600, 803","30, 40 ,53","13, 12, 14",true
