@@ -1,11 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const cors = require('cors');
 const mongoose = require('mongoose');
-const hbs = require('hbs');
 const routes = require('./routes/routes');
 const login = require('./routes/auth/login');
-const logout = require('./routes/auth/logout');
+const registration = require('./routes/auth/registration');
 const api = require('./routes/api/api');
 const pizzaApi = require('./routes/api/pizza.api');
 const saladApi = require('./routes/api/salad.api');
@@ -13,12 +13,7 @@ const burgerApi = require('./routes/api/burger.api');
 const herbApi = require('./routes/api/aqp8/herb.api');
 const rockApi = require('./routes/api/aqp8/rock.api');
 const pillApi = require('./routes/api/aqp8/pill.api');
-const bcrypt = require('bcrypt');
-const passport = require('passport');
-const flash = require('express-flash');
-const session = require('express-session');
-
-const Pill = require('./models/aqp8/pill.model')
+const userApi = require('./routes/api/user.api')
 
 const app = express();
 
@@ -47,6 +42,8 @@ app.set('view options', { layout: 'layouts/main' });
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 
+app.use(cors());
+
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header(
@@ -62,7 +59,7 @@ app.use((req, res, next) => {
 
 app.use('/', routes);
 app.use('/', login);
-app.use('/', logout)
+app.use('/', registration);
 app.use('/api', api);
 app.use('/api', pizzaApi)
 app.use('/api', saladApi)
@@ -70,6 +67,7 @@ app.use('/api', burgerApi)
 app.use('/api', herbApi)
 app.use('/api', rockApi)
 app.use('/api', pillApi)
+app.use('/api', userApi)
 
 app.listen(PORT, () => {
     console.log(`Server is running on :${PORT}`);
