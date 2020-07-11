@@ -1,7 +1,7 @@
  <template>
   <div>
-      <button @click="logout">logout</button>
-      <span v-if="user !== null">{{user.nickname}}</span>
+    <button @click="logout">logout</button>
+    <span v-if="user !== null">{{user.nickname}}</span>
     <search-bar-admin v-on:sendKeyword="onSearch" v-on:clearSearch="onClearSearch"></search-bar-admin>
     <div v-if="errorMsg">error</div>
     <div v-if="products && products.length">
@@ -205,16 +205,18 @@
 <script>
 import axios from "axios";
 import SearchBarAdmin from "./SearchBarAdmin";
+import Actions from "../actions/actions";
 
 export default {
   name: "admin-products-list",
+  extends: Actions,
   components: {
     "search-bar-admin": SearchBarAdmin
   },
   data() {
     return {
       products: [],
-      productName: "pills",
+      productName: "salads",
       deleteButtons: document.getElementsByClassName("delete-btn"),
       updateModalId: null,
       updateModal: null,
@@ -246,17 +248,10 @@ export default {
     };
   },
   created() {
-    if (localStorage.getItem("token") === null) {
-        this.$router.push('/login')
-    } else {
-        this.getProduct();
-    }
+    this.checkIfUserLoggedInSecure(this.getProduct());
   },
   mounted() {
-    axios.get(`http://192.168.0.164:5000/api/user`, { headers: { token: localStorage.getItem('token')}})
-      .then(res => {
-        this.user = res.data.user
-      })
+    this.getUser();
   },
   methods: {
     getProduct() {
@@ -386,10 +381,6 @@ export default {
     onClearSearch() {
       this.getProduct();
       this.errorMsg = false;
-    },
-    logout() {
-        localStorage.clear()
-        this.$router.push('/login')
     }
   }
 };

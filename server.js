@@ -5,6 +5,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const routes = require('./routes/routes');
 const login = require('./routes/auth/login');
+const adminLogin = require('./routes/auth/admin-login');
 const registration = require('./routes/auth/registration');
 const api = require('./routes/api/api');
 const pizzaApi = require('./routes/api/pizza.api');
@@ -14,6 +15,7 @@ const herbApi = require('./routes/api/aqp8/herb.api');
 const rockApi = require('./routes/api/aqp8/rock.api');
 const pillApi = require('./routes/api/aqp8/pill.api');
 const userApi = require('./routes/api/user.api')
+const adminApi = require('./routes/api/admin.api')
 
 const app = express();
 
@@ -59,6 +61,7 @@ app.use((req, res, next) => {
 
 app.use('/', routes);
 app.use('/', login);
+app.use('/', adminLogin);
 app.use('/', registration);
 app.use('/api', api);
 app.use('/api', pizzaApi)
@@ -66,6 +69,7 @@ app.use('/api', saladApi)
 app.use('/api', burgerApi)
 app.use('/api', herbApi)
 app.use('/api', rockApi)
+app.use('/api', adminApi)
 app.use('/api', pillApi)
 app.use('/api', userApi)
 

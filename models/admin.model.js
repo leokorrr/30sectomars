@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 let Admin = new Schema ({
         nickname: {
             type: String,
-            require: true
+            required: true
         },
         name: {
             type: String

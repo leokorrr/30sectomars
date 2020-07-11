@@ -7,7 +7,6 @@ const User = require('../../models/user.model')
 
 mongoose.connect('mongodb://admin:admin12345@ds219459.mlab.com:19459/30sectomars', { useNewUrlParser: true }, (err) => {
     if (err) throw err;
-    console.log('server.js: database connected');
 })
 
 router.get('/registration', (req, res) => {

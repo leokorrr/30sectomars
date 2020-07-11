@@ -3,24 +3,23 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-const User = require('../../models/user.model');
 const Admin = require('../../models/admin.model');
 
-router.get('/login', (req, res) => {
+router.get('/admin-login', (req, res) => {
     res.render('home')
 })
 
-router.post('/login', (req, res) => {
+router.post('/admin-login', (req, res) => {
     let email = req.body.email;
     let password = req.body.password;
 
-    User.findOne({ email: email }, (err, user) => {
+    Admin.findOne({ email: email }, (err, admin) => {
         if (err) return res.status(500).json({
             title: 'server error',
             error: err
         })
 
-        if (!user) {
+        if (!admin) {
 
             return res.status(401).json({
                 title: 'user not found',
@@ -28,20 +27,21 @@ router.post('/login', (req, res) => {
             })
         }
 
-        if (!bcrypt.compareSync(password, user.password)) {
+        if (!bcrypt.compareSync(password, admin.password)) {
             return res.status(401).json({
                 title: 'login failed',
-                error: 'invalid credentials'
+                error: 'invalid credentials',
             })
         }
 
-        let token = jwt.sign({ userId: user._id }, 'secretkey');
+        let token = jwt.sign({ userId: admin._id }, 'secretkey');
         return res.status(200).json({
             title: 'login succ',
-            token: token
+            token: token,
+            role: 'admin'
         })
     })
 
 })
 
-module.exports = router; 
+module.exports = router;
